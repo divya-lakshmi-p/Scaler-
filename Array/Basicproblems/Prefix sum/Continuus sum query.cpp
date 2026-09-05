@@ -45,7 +45,136 @@ First devotee donated 10 coins to beggars ranging from 1 to 2. Final amount in e
 Second devotee donated 20 coins to beggars ranging from 2 to 3. Final amount in each beggars pot after second devotee: [10, 30, 20, 0, 0]
 Third devotee donated 25 coins to beggars ranging from 2 to 5. Final amount in each beggars pot after third devotee: [10, 55, 45, 25, 25]
 
+One sentence you should remember
 
+ans[left] += p starts the contribution, ans[right+1] -= p ends the contribution, and prefix sum spreads those contributions across the range.
+
+That's the Difference Array + Prefix Sum pattern. Once this clicks, a whole class of range-update problems becomes much easier.
+
+
+
+
+
+
+
+
+
+
+he visual way to understand it
+
+Think of each query as a range of water.
+
+For:
+
+[1, 2, 10]
+
+we mark:
+
+        START       STOP
+          ↓           ↓
+index:   0    1    2    3    4
+        +10        -10
+
+Prefix sum makes the +10 flow:
+
+10 → 10 → 0
+
+So:
+
+10  10  0
+
+For:
+
+[2, 3, 20]
+
+we mark:
+
+index:   0    1    2    3    4
+              +20       -20
+
+For:
+
+[2, 5, 25]
+
+we mark:
+
+index:   0    1    2    3    4    5
+              +25                 -25
+
+All three markers combine:
+
+index:   0    1    2     3    4     5
+        --------------------------------
+        10   45   -10   -20    0    -25
+
+Then prefix sum:
+
+10
+10 + 45              = 55
+55 - 10              = 45
+45 - 20              = 25
+25 + 0               = 25
+25 - 25              = 0
+
+Therefore:
+
+10  55  45  25  25  0
+                         ↑
+                    extra position
+
+Remove the extra position:
+
+10 55 45 25 25
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void beggar( int n)
+{
+  int q;
+  cin >> q;
+
+  vector<int>ans(n+1);//why i am creating vector with size n+ means we are going to do it for n+1 values its like from 0th index 
+
+  for(int i=0; i<q; i++)
+  {
+    int left , right , value;
+    cin >> left >> right >> value;
+    left = left-1;    // it will update the value in i-1 positon like if its starts from 1 then it will update in 0th value 
+     
+    ans[left] += value;
+    ans[right] -= value;
+  }
+
+  for(int i=1; i<ans.size(); i++)
+  {
+    ans[i] = ans[i-1]+ans[i];
+  }
+
+  ans.pop_back();
+
+  for(auto x: ans)
+  {
+    cout << x<< " ";
+  }
+
+
+  cout<<endl;
+}
+
+int main()
+{
+  int n;
+  cin >> n;
+
+  beggar( n);
+}
+
+
+
+//core logic is like instead of updating the value in each index just updare left and right value then we can do prefix sum , but here main thigns is for left we have to add the psotive value and for right if the ending index is 3 we have to update in 4 th index with negative value to remove it .
 
 
 
