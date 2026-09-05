@@ -1,4 +1,69 @@
 Given an array count no of elements that have atleast one element greater than themselves .
+#include<bits/stdc++.h>
+using namespace std;
+
+
+int main()
+{
+  int n ,  maxi = INT_MIN;
+  cin >> n;
+  int count =0;
+  for(int i=0; i<n; i++)
+  { 
+    int x;
+    cin >> x;
+
+    if(x > maxi )
+    {
+      maxi = x;
+      count = 1;
+    }
+    else if(x == maxi)
+    {
+      count ++;
+    }
+    
+  }
+
+  cout<< n - count<<endl;
+
+}
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+
+int main()
+{
+  int n ,  maxi = INT_MIN;
+  cin >> n;
+
+  int arr[n];
+  set<int>s;
+  
+  for(int i=0; i<n; i++)
+  {
+    cin >> arr[i];
+
+    maxi = max(maxi , arr[i]);
+
+    s.insert(arr[i]);
+  }
+  int count =0;
+  for(auto x:s)
+  {
+    if( x!= maxi)
+    {
+      count++;
+    }
+  }
+cout<<count<<endl;
+}
+
+
+
 
 
 
